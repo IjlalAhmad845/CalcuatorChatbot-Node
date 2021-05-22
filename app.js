@@ -6,25 +6,7 @@ var num2;
 var operatorindex = 1;
 var expression;
 var result;
-var output = "All commands should be performed without brackets and without space \n\n" +
-  "commands----->\n" +
-  "=num1+num2 \n" +
-  "=num1-num2 \n" +
-  "=num1*num2 \n" +
-  "=num1/num2 \n" +
-  "=num1%num2 \n\n" +
-  "=num1^num2 \n" +
-  "=root(num) \n\n" +
-  "=sin(num) \n" +
-  "=cos(num) \n" +
-  "=tan(num) \n" +
-  "=cosec(num) \n" +
-  "=sec(num) \n" +
-  "=cot(num) \n\n" +
-  "=log(num) \n" +
-  "=ln(num) \n" +
-  "=round(num) \n" +
-  "=random() \n";
+var output;
 
 venom
   .create()
@@ -35,7 +17,7 @@ venom
 
 function start(client) {
   client.onMessage((message) => {
-    output = "All commands should be performed without brackets and without space \n\n" +
+    output = "All commands should be performed without space \n\n" +
   "commands----->\n" +
   "=num1+num2 \n" +
   "=num1-num2 \n" +
@@ -68,16 +50,35 @@ function start(client) {
           result = Math.sqrt(Math.abs(parseFloat(num1)));
           output = result + "i";
         }
-
-
+      }
+      else if (expression.substring(1, 6) == "root(") {
+        num1 = expression.substring(6, expression.length-1);
+        if (num1 >= 0) {
+          result = Math.sqrt(parseFloat(num1));
+          output = result + "";
+        }
+        else {
+          result = Math.sqrt(Math.abs(parseFloat(num1)));
+          output = result + "i";
+        }
       }
       else if (expression.substring(1, 4) == "sin") {
         num1 = expression.substring(4, expression.length);
         result = Math.sin(parseFloat(num1) * Math.PI / 180);
         output = result + "";
       }
+      else if (expression.substring(1, 5) == "sin(") {
+        num1 = expression.substring(5, expression.length-1);
+        result = Math.sin(parseFloat(num1) * Math.PI / 180);
+        output = result + "";
+      }
       else if (expression.substring(1, 4) == 'cos') {
         num1 = expression.substring(4, expression.length);
+        result = Math.cos(parseFloat(num1) * Math.PI / 180);
+        output = result + "";
+      }
+      else if (expression.substring(1, 5) == "cos(") {
+        num1 = expression.substring(5, expression.length-1);
         result = Math.cos(parseFloat(num1) * Math.PI / 180);
         output = result + "";
       }
@@ -89,13 +90,31 @@ function start(client) {
         
         output = result + "";
       }
-      else if (expression.substring(1, 4) == 'cosec') {
+      else if (expression.substring(1, 5) == 'tan(') {
+        num1 = expression.substring(5, expression.length-1);
+        if (num1 % 90 != 0)
+        result = Math.tan(parseFloat(num1) * Math.PI / 180);
+        else result = 1 / 0;
+        
+        output = result + "";
+      }
+      else if (expression.substring(1, 6) == 'cosec') {
         num1 = expression.substring(4, expression.length);
+        result = 1 / Math.sin(parseFloat(num1) * Math.PI / 180);
+        output = result + "";
+      }
+      else if (expression.substring(1, 7) == 'cosec(') {
+        num1 = expression.substring(7, expression.length-1);
         result = 1 / Math.sin(parseFloat(num1) * Math.PI / 180);
         output = result + "";
       }
       else if (expression.substring(1, 4) == 'sec') {
         num1 = expression.substring(4, expression.length);
+        result = 1 / Math.cos(parseFloat(num1) * Math.PI / 180);
+        output = result + "";
+      }
+      else if (expression.substring(1, 5) == 'sec(') {
+        num1 = expression.substring(5, expression.length-1);
         result = 1 / Math.cos(parseFloat(num1) * Math.PI / 180);
         output = result + "";
       }
@@ -107,8 +126,21 @@ function start(client) {
         
         output = result + "";
       }
+      else if (expression.substring(1, 5) == 'cot(') {
+        num1 = expression.substring(5, expression.length-1);
+        if (num1 != 0)
+        result = 1 / Math.tan(parseFloat(num1) * Math.PI / 180);
+        else result = 1 / 0;
+        
+        output = result + "";
+      }
       else if (expression.substring(1, 4) == 'log') {
         num1 = expression.substring(4, expression.length);
+        result = Math.log10(num1);
+        output = result + "";
+      }
+      else if (expression.substring(1, 5) == 'log(') {
+        num1 = expression.substring(5, expression.length-1);
         result = Math.log10(num1);
         output = result + "";
       }
@@ -117,13 +149,26 @@ function start(client) {
         result = Math.log(num1);
         output = result + "";
       }
+      else if (expression.substring(1, 4) == 'ln(') {
+        num1 = expression.substring(4, expression.length-1);
+        result = Math.log(num1);
+        output = result + "";
+      }
       else if (expression.substring(1, 6) == 'round') {
         num1 = expression.substring(6, expression.length);
         result = Math.round(num1);
         output = result + "";
       }
+      else if (expression.substring(1, 7) == 'round(') {
+        num1 = expression.substring(7, expression.length-1);
+        result = Math.round(num1);
+        output = result + "";
+      }
       else if (expression.substring(1, 7) == 'random') {
-        //num1 = expression.substring(6, expression.length);
+        result = Math.random();
+        output = result + "";
+      }
+      else if (expression.substring(1, 8) == 'random(') {
         result = Math.random();
         output = result + "";
       }
