@@ -2,6 +2,7 @@
 
 ## Installation
 #### Install [NodeJs](https://nodejs.org/en/) on your PC
+#### Steps after Nodejs installation
 
  - Run installer1.bat file and hit enter until it asks for yes , then type yes to close installer1.bat
  - Run installer2.bat file and wait until it installs all the necessary files
